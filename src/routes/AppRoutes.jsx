@@ -12,7 +12,7 @@ export default () =>
         <Routes>
             <Route
                 path='/'
-                element={<ExcelSheep />}
+                element={<DocumentMain />}
             />
             <Route
                 path='/registro'
@@ -24,7 +24,7 @@ export default () =>
             />
             <Route
                 path='/documento'
-                element={<DocumentMain />}
+                element={<ExcelSheep />}
             />
             <Route
                 path='*'
