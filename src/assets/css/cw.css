@@ -1,0 +1,33 @@
+.adm-grid {
+    display: grid;
+    grid-template-columns: 240px calc(100% - 240px);
+    grid-template-rows: 60px calc(100vh - 60px);
+    grid-template-areas: 'adm-nav adm-header' 'adm-nav adm-body';
+    transition: grid 0.25s ease-in-out;
+  }
+  
+  .adm-nav {
+    grid-area: adm-nav;
+    /* border-right: 1px inset #e0f2f1; */
+    opacity: 1;
+    transition: grid 0.3s ease-in-out;
+    /* overflow: hidden; */
+  }
+  
+  .adm-header {
+    grid-area: adm-header;
+    border-bottom: 1px inset #e0f2f1;
+  }
+  
+  .adm-body {
+    grid-area: adm-body;
+  }
+  
+  .adm-grid-active {
+    grid-template-columns: 0px 100%;
+  }
+  
+  .adm-checked {
+    grid-template-columns: 60px calc(100% - 60px);
+  }
+  
