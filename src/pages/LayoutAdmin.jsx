@@ -34,39 +34,24 @@ export default ({ children }) => {
             </h1>
           </div>
           <nav className='adm-navbar'>
-            <Link to='/admin/dashboard'>
+            <Link to='/AT_demo2/rym'>
               <ButtonNavLink
-                text='DashBoard'
+                text='Rick And Morty'
               />
             </Link>
-            <Link to='/admin/compra'>
+            <Link to='/AT_demo2/layout'>
               <ButtonNavLink
-                text='Registrar Compra'
+                text='Excel vista'
               />
             </Link>
-            <Link to='/admin/compra/buscar'>
+            <Link to='/AT_demo2/documento'>
               <ButtonNavLink
-                text='Buscar Compra'
+                text='Layout'
               />
             </Link>
-            <Link to='/admin/compra/listar'>
+            <Link to='/AT_demo2/PageNotFoundPage'>
               <ButtonNavLink
-                text='Listar Compra'
-              />
-            </Link>
-            <Link to='/admin/venta/registrar'>
-              <ButtonNavLink
-                text='Registrar Venta'
-              />
-            </Link>
-            <Link to='/admin/venta/buscar'>
-              <ButtonNavLink
-                text='Buscar Venta'
-              />
-            </Link>
-            <Link to='/admin/venta/listar'>
-              <ButtonNavLink
-                text='Listar Venta'
+                text='Error 404'
               />
             </Link>
           </nav>
