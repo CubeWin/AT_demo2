@@ -1,46 +1,50 @@
 import { useEffect } from 'react'
 import LayoutAdmin from './LayoutAdmin'
+import { getProducts } from '../services/getProductos'
+
+const getProducto = async () => {
+  const luckysheet = window.luckysheet
+  const allProducts = await getProducts();
+  luckysheet.create({
+    container: 'luckysheet',
+    title: 'Luckysheet Demo',
+    lang: 'es',
+    showtoolbar: true,
+    showinfobar: false,
+    data: [
+      {
+        name: 'Producto',
+        color: '#F3A712',
+        status: '1',
+        order: '0',
+        celldata: allProducts,
+        config: {},
+        index: 0
+      },
+      {
+        name: 'Sheet2',
+        color: '',
+        status: '0',
+        order: '1',
+        celldata: [],
+        config: {},
+        index: 1
+      },
+      {
+        name: 'Sheet3',
+        color: '',
+        status: '0',
+        order: '2',
+        data: [],
+        config: {},
+        index: 2
+      }
+    ]
+  })
+}
 
 export default () => {
-  useEffect(() => {
-    const luckysheet = window.luckysheet
-    luckysheet.create({
-      container: 'luckysheet',
-      title: 'Luckysheet Demo',
-      lang: 'es',
-      showtoolbar: true,
-      showinfobar: false,
-      data: [
-        {
-          name: 'Producto',
-          color: '#F3A712',
-          status: '1',
-          order: '0',
-          celldata: [],
-          config: {},
-          index: 0
-        },
-        {
-          name: 'Sheet2',
-          color: '',
-          status: '0',
-          order: '1',
-          celldata: [],
-          config: {},
-          index: 1
-        },
-        {
-          name: 'Sheet3',
-          color: '',
-          status: '0',
-          order: '2',
-          data: [],
-          config: {},
-          index: 2
-        }
-      ]
-    })
-  }, [])
+  useEffect(() => { getProducto() }, [])
   return (
     <LayoutAdmin>
       <div
