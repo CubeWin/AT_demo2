@@ -10,17 +10,17 @@ export default ({ children }) => {
       <div className='absolute h-screen w-full top-0 left-0 bgg-primary dark:bgg-primary-d -z-30' />
       <div className='absolute h-screen w-full top-0 left-0 -z-20 blur-sm opacity-75 overflow-hidden'>
         <img
-          src=""
+          src=''
           alt='Imagen decorativa'
           className='absolute top-5 left-10 w-[450px] h-[450px] dark:opacity-20 dark:shadow-lg'
         />
         <img
-          src=""
+          src=''
           alt='Imagen decorativa'
           className='absolute -bottom-10 left-[35%] w-[350px] h-[350px] dark:opacity-20 dark:shadow-lg'
         />
         <img
-          src=""
+          src=''
           alt='Imagen decorativa'
           className='absolute top-[50px] -right-[80px] w-[350px] h-[350px] dark:opacity-20 dark:shadow-lg'
         />
@@ -34,25 +34,20 @@ export default ({ children }) => {
             </h1>
           </div>
           <nav className='adm-navbar'>
-            <Link to='/AT_demo2/rym'>
-              <ButtonNavLink
-                text='Rick And Morty'
-              />
+            <Link to='/AT_demo2'>
+              <ButtonNavLink text='Home' />
             </Link>
-            <Link to='/AT_demo2/layout'>
-              <ButtonNavLink
-                text='Excel vista'
-              />
+            <Link to='/AT_demo2/rym'>
+              <ButtonNavLink text='Rick And Morty' />
             </Link>
             <Link to='/AT_demo2/documento'>
-              <ButtonNavLink
-                text='Layout'
-              />
+              <ButtonNavLink text='Excel vista' />
+            </Link>
+            <Link to='/AT_demo2/layout'>
+              <ButtonNavLink text='Layout' />
             </Link>
             <Link to='/AT_demo2/PageNotFoundPage'>
-              <ButtonNavLink
-                text='Error 404'
-              />
+              <ButtonNavLink text='Error 404' />
             </Link>
           </nav>
         </div>
@@ -61,7 +56,7 @@ export default ({ children }) => {
           <div className='absolute w-full h-full flex justify-between items-center px-3'>
             <div className='text-teal-600'>Welcome Page</div>
             <div className='text-teal-600 font-bold'>
-              <button className="">Button</button>
+              <button className=''>Button</button>
             </div>
           </div>
         </div>
