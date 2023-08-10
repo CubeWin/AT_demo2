@@ -46,8 +46,22 @@ export default ({ children }) => {
             <Link to='/AT_demo2/layout'>
               <ButtonNavLink text='Layout' />
             </Link>
+            <Link to='/AT_demo2/crear'>
+              <ButtonNavLink text='Crear new proyect' />
+            </Link>
+            <Link to='/AT_demo2/lista'>
+              <ButtonNavLink text='Listar tablas' />
+            </Link>
+            <Link to='/AT_demo2/campos'>
+              <ButtonNavLink text='Listar campos' />
+            </Link>
             <Link to='/AT_demo2/PageNotFoundPage'>
               <ButtonNavLink text='Error 404' />
+            </Link>
+            <Link to='/AT_demo2/PageVerXml'>
+              <ButtonNavLink
+                text='Visualizar XML'
+              />
             </Link>
           </nav>
         </div>

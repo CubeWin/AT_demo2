@@ -1,38 +1,28 @@
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
-import Personajes from '../pages/ListarPersonajes'
-import ExcelSheep from '../pages/ExcelSheep'
-import LayoutAdmin from '../pages/LayoutAdmin'
-import DocumentMain from '../pages/DocumentMain'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import CssBaseline from '@mui/material/CssBaseline';
+import { AuthProvider, RequireAuth } from 'react-auth-kit'
 
-// const RegistroPage = () => <h1 className='font-bold text-teal-700'>Pagina web de registro</h1>
+// import MainPage from '../pages/MainPage'
+import Login from '../pages/Login'
+import AtRoutes from './AtRoutes';
+
 const PageNotFound = () => (
   <h1 className='font-bold text-[90px] text-amber-500'>
-    PageNotFound error 404
+      PageNotFound error 404
   </h1>
 )
 
-const RoutesAT_demo2 = () => {
-  return (
-    <Routes>
-      <Route path='/rym' element={<Personajes />} />
-      <Route path='/layout' element={<LayoutAdmin />} />
-      <Route path='/documento' element={<ExcelSheep />} />
-      <Route path='*' element={<PageNotFound />} />
-    </Routes>
-  )
+export default () => {
+
+  return <AuthProvider authType='cookie' authName='_auth' cookieDomain={window.location.hostname} cookieSecure={false}>
+    <BrowserRouter>
+      <CssBaseline />
+
+      <Routes>
+        <Route path='/AT_demo2/login' element={<Login />} />
+        <Route path='/AT_demo2/*' element={<RequireAuth loginPath='/AT_demo2/login'><AtRoutes /></RequireAuth>} />
+        <Route path='*' element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter >
+  </AuthProvider>
 }
-
-export default () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<DocumentMain />} />
-
-      <Route path='/AT_demo2' element={<Outlet />}>
-        <Route index element={<DocumentMain />} />
-        <Route path='*' element={<RoutesAT_demo2 />} />
-      </Route>
-      
-      <Route path='*' element={<PageNotFound />} />
-    </Routes>
-  </BrowserRouter>
-)
