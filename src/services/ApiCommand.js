@@ -4,7 +4,6 @@ export const getDataQuery = async (id_project) => {
   const url = `${API_BASE_URL}/command/${id_project}`;
   const res = await fetch(url);
   const { data } = await res.json()
-  console.log(data);
   const { request, fields } = data;
 
   const fieldArr = fields.map((req, indx) => {
@@ -24,12 +23,10 @@ export const getDataQuery = async (id_project) => {
           c: ind,
           v: fieldData
         }
-        console.log(objRes);
         return objRes
       })
     }
   })
-  console.log([...fieldArr, ...respArr].flat());
   return [...fieldArr, ...respArr].flat()
 }
 

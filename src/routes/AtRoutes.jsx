@@ -19,6 +19,7 @@ export default () => {
         <Route path='tablas' element={<Lista />} />
         <Route path='campos' element={<Campos />} />
         <Route path='project' element={<Project />} />
+        <Route path='workbook/' element={<Workbook />} />
         <Route path='workbook/:projectId' element={<Workbook />} />
       </Routes>
     </AdminLayout>

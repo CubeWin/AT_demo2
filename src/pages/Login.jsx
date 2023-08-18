@@ -1,7 +1,6 @@
 import { Button, FormControl, FormLabel, TextField, Typography } from '@mui/material'
 import { useSignIn } from 'react-auth-kit'
 import { useNavigate } from 'react-router-dom'
-
 import { API_BASE_URL } from '../constants/dataConfig'
 
 export default () => {
@@ -15,7 +14,7 @@ export default () => {
     const input_password = document.getElementById('userPasswordId').value
 
     console.log(input_username, input_password)
-
+    
     let res = await fetch(`${API_BASE_URL}/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
