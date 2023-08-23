@@ -1,7 +1,7 @@
-import { BASE_URL } from "../../environment";
+import { API_BASE_URL } from "../constants/dataConfig";
 
 export const getProjectList = async () => {
-  const url = "http://localhost:9090/project";
+  const url = `${API_BASE_URL}/project`;
   const res = await fetch(url);
   const { data } = await res.json()
   const { request } = data;
@@ -9,7 +9,7 @@ export const getProjectList = async () => {
 }
 
 export const getProject = async (id) => {
-  const url = `${BASE_URL}/project/${id}`;
+  const url = `${API_BASE_URL}/project/${id}`;
   const res = await fetch(url);
   const { data } = await res.json()
   const { request } = data;
@@ -24,7 +24,7 @@ export const createProject = async (project) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(project)
     }
-    const url = `${BASE_URL}/project`;
+    const url = `${API_BASE_URL}/project`;
     const res = await fetch(url, options);
     const { data } = await res.json()
     const { request } = data;

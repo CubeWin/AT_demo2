@@ -29,7 +29,7 @@ export default () => {
             <Route
               path=''
               element={
-                <div className='w-full h-screen flex flex-col justify-center items-center text-5xl text-stone-400 font-bold'>
+                <div className='w-full h-full flex flex-col justify-center items-center text-5xl text-stone-400 font-bold'>
                   <h1>BIENVENIDO</h1>
                   <p className='text-lg'>Altamira Technology</p>
                 </div>

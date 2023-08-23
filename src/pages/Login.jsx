@@ -77,7 +77,7 @@ export default () => {
     singIn({
       token: auth_data.token,
       tokenType: 'Bearer',
-      expiresIn: 60 * 24,
+      expiresIn: 60 * 4,
       authState: { username: auth_data.verfify.uid }
     })
 
