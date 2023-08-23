@@ -8,6 +8,7 @@ import './assets/css/plugins.css'
 import './assets/css/pluginsCss.css'
 // import './assets/js/plugin.js'
 // import './assets/js/luckysheet.umd.js'
+import './assets/css/misc.css'
 
 const element = document.getElementById('app')
 const root = createRoot(element)

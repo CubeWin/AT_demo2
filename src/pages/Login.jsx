@@ -48,7 +48,7 @@ export default () => {
   }
 
   return (
-    <div className='flex h-full'>
+    <div className='flex h-screen'>
       <div className='bg-slate-200 w-[30rem] h-full flex justify-center items-center'>
         <form
           className='p-5 rounded border border-slate-500  outline outline-2 outline-blue-300 flex flex-col justify-between w-[20rem] h-[23rem]'

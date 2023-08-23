@@ -5,6 +5,7 @@ export const projectStore = () => {
   const [query, setQuery] = useState({ id_data_table: 0, name: '', sentence: '' })
   const [table, setTable] = useState({ id: null, name: '' })
   const [field, setField] = useState({ id_query: '', field_name: '', is_active: '' })
+  const [sheet, setSheet] = useState('')
   const [queryField, setQueryField] = useState([])
 
   useEffect(() => {
@@ -20,6 +21,8 @@ export const projectStore = () => {
     setQuery,
     setField,
     queryField,
-    setQueryField
+    setQueryField,
+    sheet,
+    setSheet
   }
 }

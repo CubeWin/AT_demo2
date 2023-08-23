@@ -4,7 +4,7 @@ import { projectStore } from '../helpers/ProjectStore'
 export const ProjectContext = createContext()
 
 export const ProjectProvider = ({ children }) => {
-  const { project, setProject, query, setQuery, setField, queryField, table, setTable, setQueryField } = projectStore()
+  const { project, setProject, query, setQuery, setField, queryField, table, setTable, setQueryField, sheet, setSheet } = projectStore()
   return (
     <ProjectContext.Provider
       value={{
@@ -16,7 +16,9 @@ export const ProjectProvider = ({ children }) => {
         queryField,
         table,
         setTable,
-        setQueryField
+        setQueryField,
+        sheet,
+        setSheet
       }}
     >
       {children}

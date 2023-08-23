@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createProject } from '../services/ApiProject'
+import { createSheet } from '../services/ApiSheet'
 import { useNavigate } from 'react-router-dom'
 
 export default () => {
@@ -27,7 +28,14 @@ export default () => {
         const resProjectCreate = await createProject(newProjectObj)
         if (!resProjectCreate.id) throw new Error('No se pudo registrar el proyecto.')
         const projectID = resProjectCreate.id
-        console.log(projectID)
+
+        const newSheetObj = {
+          id_project: projectID,
+          title: projectID
+        }
+        const resSheetCreate = await createSheet(newSheetObj)
+        if (!resSheetCreate.id) throw new Error('No se pudo registrar la primera hoja.')
+
         setIsLoadingProject(false)
         setSuccess(true)
         return navigate(`../workbook/${projectID}`)

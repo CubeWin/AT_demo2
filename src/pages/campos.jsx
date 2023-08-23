@@ -1,109 +1,77 @@
-import {
-    Avatar, Box, Checkbox, Container, Divider, List, ListItem,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemText,
-    ThemeProvider,
-    Typography,
-    createTheme
-} from "@mui/material";
-import Button from "@mui/material/Button"
-import * as React from 'react';
-import PeopleIcon from '@mui/icons-material/People';
-import { Label } from "@mui/icons-material";
+import { Fragment, useContext, useEffect, useState } from 'react'
+import { Box, Container, Button } from '@mui/material'
+import useFieldGet from '../hooks/useFieldGet'
+import { ProjectContext } from '../context/ProjectContext'
+import CableIcon from '@mui/icons-material/Cable';
 
+export default ({ primaryKey, secondaryKey }) => {
+  const { table, setQueryField } = useContext(ProjectContext)
+  const [isLoading, setIdTable, fieldList] = useFieldGet()
+  const [fieldData, setFieldData] = useState({})
+  useEffect(() => {
+    setIdTable(table.id)
+  }, [table.id])
 
+  useEffect(() => {
+    setFieldData(() => {
+      let listField = {}
+      if (!fieldList) {
+        return
+      }
+      fieldList.forEach((f) => {
+        listField = { ...listField, [f.FIELD_NAME]: { field_name: f.FIELD_NAME, is_active: false } }
+      })
+      return listField
+    })
+    // console.log(fieldData)
+  }, [fieldList])
 
-const theme = createTheme({
-    palette: {
-        background: {
-            paper: '#5F5D5D',
-            listacolor: '#F1F1F1'
-        }
-    },
-});
+  const handleChange = (e) => {
+    setFieldData((fdata) => ({ ...fdata, [e.target.name]: { id_query: '', field_name: e.target.name, is_active: e.target.checked } }))
+  }
 
-export default function Campos() {
-    document.body.style.backgroundColor = "white";
-    const [checked, setChecked] = React.useState([1]);
+  useEffect(() => {
+    if (Object.values(fieldData).length <= 0) return
+    setQueryField(Object.values(fieldData))
+  }, [fieldData])
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
-    return (
-        <Container maxWidth="xs">
-            <ThemeProvider theme={theme}>
-                <Box
-                    sx={{
-                        marginTop: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <h1 style={{ color: 'gray', fontFamily: 'Helvetica', fontWeight: 100, textAlign: 'center', fontSize: 29 }}>Seleccionar Procedencia de datos</h1>
-
-                    <Box sx={{
-                        marginTop: 4,
-                        display: 'inline-flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        width: '100%',
-                        height: 350,
-                        borderRadius: '16px',
-                        bgcolor: 'background.listacolor'
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <PeopleIcon sx={{
-                                marginRight: 3,
-                            }} />
-                            <Typography sx={{
-                                marginRight: 30,
-                            }} variant="subtitle1">Tabla05</Typography>
-                        </div>
-                        <List dense sx={{ width: '100%', maxWidth: 360, color: 'background.paper', border: 'radius' }}>
-                            {[0, 1, 2, 3, 4, 5].map((value) => {
-                                const labelId = `checkbox-list-secondary-label-${value}`;
-
-                                return (
-                                    <React.Fragment key={value}>
-                                        <ListItem
-                                            secondaryAction={
-                                                <Checkbox
-                                                    edge="end"
-                                                    onChange={handleToggle(value)}
-                                                    checked={checked.indexOf(value) !== -1}
-                                                    inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            }
-                                            disablePadding
-                                        >
-                                            <ListItemButton>
-                                                <ListItemText id={labelId} primary={`Campo0${value + 1}`} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                        <Divider />
-                                    </React.Fragment>
-                                );
-                            })}
-                        </List>
-                    </Box>
-                    <Button variant="contained" sx={{
-                        marginTop: 20,
-                        marginLeft: 30,
-                        width: 150
-                    }}>EXTRAER DATOS</Button>
-                </Box>
-            </ThemeProvider>
-        </Container>
-    );
+  return (
+    <Container className='absolute h-full w-full flex flex-col justify-between'>
+      <div className='max-w-[450px] p-0 w-full'>
+        <h1 className='text-slate-600 my-5 font-thin text-center text-3xl font-[Helvetica]'>Seleccionar Procedencia de datos</h1>
+        <Box className='w-full bg-gray-300 min-h-[350px] max-h-[50vh] rounded-md overflow-auto'>
+          <div className='m-0 p-0'>
+            {isLoading && <p>...loading<br/></p>}
+            {!isLoading && (fieldList.length > 0) &&
+              fieldList.map((field) => (
+                <Fragment key={`${field.ID_DATA_FIELD}`}>
+                  <label
+                    className='flex items-center justify-between p-3 bg-zinc-300 border-b border-zinc-200 cursor-pointer'
+                    htmlFor={field.ID_DATA_FIELD}
+                  >
+                    <span>
+                      <CableIcon className='text-slate-700 mr-2' />
+                      <span className='m-0 p-0 checked:text-blue-500'>{field.FIELD_NAME}</span>
+                    </span>
+                    <input
+                      type='checkbox'
+                      id={field.ID_DATA_FIELD}
+                      name={field.FIELD_NAME}
+                      value={field.ID_DATA_FIELD}
+                      onChange={handleChange}
+                    />
+                  </label>
+                </Fragment>
+              ))}
+          </div>
+        </Box>
+      </div>
+      <div className='p-2 flex justify-around'>
+        <Button className='btn bg-slate-100 text-black border border-slate-600' onClick={secondaryKey}>Regresar</Button>
+        <Button className='btn bg-cyan-600 text-white active:ring-2 active:ring-teal-400' onClick={primaryKey}>
+          Siguiente
+        </Button>
+      </div>
+    </Container>
+  )
 }

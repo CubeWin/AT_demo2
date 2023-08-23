@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import axios from 'axios';
+
 
 const FileUploadView = () => {
   const fileInputRef = useRef(null);
@@ -68,11 +70,35 @@ const FileUploadView = () => {
   };
 
   const handleCreateClick = () => {
-    setShowModal(true); // Mostrar la ventana flotante al hacer clic en el botón "CREAR"
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false); // Ocultar la ventana flotante al hacer clic en el botón "Cerrar" dentro de la ventana
+    setShowModal(false);
+  };
+
+  const handleSaveJsonClick = () => {
+    const jsonToSave = formatInvoiceData(invoiceData);
+    axios.post('http://localhost:9090/receipt/', jsonToSave)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+  
+
+  const formatInvoiceData = (data) => {
+    const formattedData = {};
+    for (const key in data) {
+      if (typeof data[key] === 'string') {
+        formattedData[key] = data[key].replace(/[\n\t]/g, '').trim();
+      } else {
+        formattedData[key] = data[key];
+      }
+    }
+    return formattedData;
   };
 
   return (
@@ -147,21 +173,29 @@ const FileUploadView = () => {
         </div>
 
         {showModal && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-6 rounded-md">
-            <h2 className="text-lg font-bold mb-4">Contenido del XML en JSON:</h2>
-            <pre>
-              <code>{JSON.stringify(invoiceData, null, 2)}</code>
-            </pre>
-            <button
-              onClick={handleCloseModal}
-              className="bg-blue-600 text-white text-xs px-6 py-3 font-sans rounded-md mt-4"
-            >
-              Cerrar
-            </button>
+          <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50">
+            <div className="bg-white p-6 rounded-md">
+              <h2 className="text-lg font-bold mb-4">Contenido del XML en JSON:</h2>
+              <pre>
+                <code>{JSON.stringify(formatInvoiceData(invoiceData), null, 2)}</code>
+              </pre>
+
+              <button
+                onClick={handleSaveJsonClick}
+                className="bg-blue-600 text-white text-xs px-6 py-3 font-sans rounded-md mt-4"
+              >
+                Guardar JSON
+              </button>
+
+              <button
+                onClick={handleCloseModal}
+                className="bg-blue-600 text-white text-xs px-6 py-3 font-sans rounded-md mt-4"
+              >
+                Cerrar
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       </div>
     </div>
