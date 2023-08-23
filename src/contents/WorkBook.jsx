@@ -9,13 +9,13 @@ export default () => {
   const { projectId } = useParams()
   const [isNew, setIsNew] = useState(false)
   const [isTable, setIsTable] = useState(false)
-  const [isField, setIsField] = useState(false)
   const { sheet, setSheet } = useContext(ProjectContext)
 
   useEffect(() => {
     const getFullData = async () => {
       console.log('Load Data ===')
-      const { sheet_id, fulldata } = !projectId ? { sheet_id: null, fullData: [] } : await getDataQuery(projectId)
+      const responseGetData = !projectId ? { sheet_id: null, fullData: [] } : await getDataQuery(projectId)
+      const { sheet_id, fullData } = responseGetData
       setSheet(sheet_id)
       const nameData = projectId || 'Hoja 1'
       const luckysheet = window.luckysheet
@@ -31,7 +31,7 @@ export default () => {
             color: '#F3A712',
             status: '1',
             order: '0',
-            celldata: fulldata,
+            celldata: fullData,
             config: {},
             index: 0
           }

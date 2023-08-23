@@ -5,9 +5,9 @@ export const getDataQuery = async (id_project) => {
   const res = await fetch(url);
   const { data } = await res.json()
   const { request, fields, sheet } = data;
-
   if (!request) return { sheet_id: sheet || null, fullData: [] }
 
+  console.log(`after: ${!request}`);
   const fieldArr = fields.map((req, indx) => {
     return {
       r: 0,
@@ -29,8 +29,7 @@ export const getDataQuery = async (id_project) => {
       })
     }
   })
-
-
-  return { sheet_id: sheet || null, fullData: [...fieldArr, ...respArr].flat() }
+  const fullData = [...fieldArr, ...respArr].flat()
+  return { sheet_id: sheet || null, fullData }
 }
 
