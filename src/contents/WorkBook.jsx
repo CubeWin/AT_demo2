@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getDataQuery } from '../services/ApiCommand'
-import Crear from '../pages/crear'
-import CreateTableField from '../pages/CreateTableField'
+import Crear from './Crear'
+import CreateTableField from './CreateTableField'
 import { ProjectContext } from '../context/ProjectContext'
 
 export default () => {

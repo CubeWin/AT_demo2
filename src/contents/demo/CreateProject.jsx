@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { ProjectContext } from '../context/ProjectContext'
+import { ProjectContext } from '../../context/ProjectContext'
 
 export default () => {
   const { setProject } = useContext(ProjectContext)

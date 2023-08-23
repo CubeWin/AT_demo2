@@ -25,14 +25,13 @@ export default ({ secondaryKey }) => {
           <small className='text-xs text-gray-600'>{table.id}</small>
         </div>
         <div className='border border-spacing-2 border-stone-300 rounded-md overflow-auto w-full max-h-[50vh] min-h-[350px] shadow-inner'>
-          {dataField &&
-            dataField.length > 0 &&
+          {dataField && dataField.length > 0 &&
             dataField.map((field) => (
               <div
                 key={`${field.field_name}`}
-                className={`flex py-2 px-1 text-center border-b ${field.is_active ? 'bg-slate-300' : 'text-stone-500'}`}
+                className={`flex py-2 px-1 text-center border-b ${field.is_active ? 'bg-cyan-600' : 'text-stone-500'}`}
               >
-                <p className={`text-center text-lg ${field.is_active ? 'text-slate-700' : 'text-stone-100'}`}>{field.field_name}</p>
+                <p className={`text-center text-lg ${field.is_active ? 'text-slate-100' : 'text-stone-300'}`}>{field.field_name}</p>
               </div>
             ))}
         </div>

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ProjectContext } from '../context/ProjectContext'
+import { ProjectContext } from '../../context/ProjectContext'
 
 export default () => {
   const { project, query, setQuery, table, queryField } = useContext(ProjectContext)

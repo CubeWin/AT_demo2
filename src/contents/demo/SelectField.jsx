@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
-import { ProjectContext } from '../context/ProjectContext'
-import useFieldGet from '../hooks/useFieldGet'
+import { ProjectContext } from '../../context/ProjectContext'
+import useFieldGet from '../../hooks/useFieldGet'
 
 export default () => {
   const { table, setQueryField } = useContext(ProjectContext)

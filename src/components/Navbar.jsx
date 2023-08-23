@@ -107,7 +107,7 @@ export default ({ open, setOpen }) => {
           </ListItemIcon>
           <ListItemText primary='Workbook' />
         </NavButton>
-        <NavButton key='Cargar RH' to='/AT_demo2/PageVerXmL'>
+        <NavButton key='Cargar RH' to='/AT_demo2/rrhh'>
           <ListItemIcon>
             <GroupIcon />
           </ListItemIcon>

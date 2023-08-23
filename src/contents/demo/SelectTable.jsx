@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import useTableGet from '../hooks/useTableGet'
-import { ProjectContext } from '../context/ProjectContext'
+import useTableGet from '../../hooks/useTableGet'
+import { ProjectContext } from '../../context/ProjectContext'
 
 export default () => {
   const [isLoading, tableList] = useTableGet()

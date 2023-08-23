@@ -1,72 +1,143 @@
-import { Button, FormControl, FormLabel, TextField, Typography } from '@mui/material'
+import { Button, FormControl, FormHelperText, FormLabel, Snackbar, TextField, Typography } from '@mui/material'
 import { useSignIn } from 'react-auth-kit'
 import { useNavigate } from 'react-router-dom'
-import { API_BASE_URL } from '../constants/dataConfig'
+import { authenticate, isAvailable, login } from '../services/ApiLogin'
+import { useState } from 'react'
+
+const LogginSpinner = ({ isLogging }) => {
+  return (
+    <div id='spinner-login-container'>
+      <div id='spinner-login' style={{ opacity: isLogging ? 'initial' : '0%' }} />
+    </div>
+  )
+}
 
 export default () => {
   const singIn = useSignIn()
   const navigate = useNavigate()
 
+  const [userError, setUserError] = useState()
+  const [passwordError, setPasswordError] = useState()
+  const [generalError, setGeneralError] = useState()
+  const [isLogging, setIsLogging] = useState(false)
+
+  const onChangeUser = (ev) => {
+    setUserError()
+  }
+  const onChangePassword = (ev) => {
+    setPasswordError()
+  }
+
   const onSubmit = async (ev) => {
     ev.preventDefault()
+
+    setGeneralError()
+
+    const available = await isAvailable()
+    if (!available) {
+      console.log(available)
+      return
+    }
 
     const input_username = document.getElementById('userNameId').value
     const input_password = document.getElementById('userPasswordId').value
 
-    console.log(input_username, input_password)
-    
-    let res = await fetch(`${API_BASE_URL}/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: input_username, password: input_password })
-    })
-    res = await res.json()
-
-    // console.log('First request', res)
-    if (!res.success) {
+    if (input_username === '') {
+      setUserError('EL usuario es obligatorio')
+    }
+    if (input_password === '') {
+      setPasswordError('La contraseña es obligatoria')
+    }
+    if (input_password === '' || input_username === '') {
       return
     }
 
-    res = await fetch(`${API_BASE_URL}/validtoken`, {
-      method: 'POST',
-      headers: { 'auth-token': res.token }
-    })
-    res = await res.json()
-    console.log(res.message)
-    if (!res.success) {
+    setIsLogging(true)
+    let login_data = await login(input_username, input_password)
+    if (!login_data.success) {
+      console.log(login_data)
+      if (login_data.error === "Cannot read properties of undefined (reading 'PASSWORD')") {
+        setUserError('El usuario no existe')
+      } else if (login_data.error === 'Usuario o clave incorrecto.') {
+        setPasswordError('La contraseña es incorrecta')
+      } else if (login_data.error === 'Illegal arguments: string, undefined') {
+        setGeneralError('Servicio no disponible')
+      }
+
+      setIsLogging(false)
       return
     }
 
-    // console.log('Second request', res)
+    let auth_data = await authenticate(login_data.token)
+    if (!auth_data.success) {
+      setIsLogging(false)
+      return
+    }
+
     singIn({
-      token: res.token,
+      token: auth_data.token,
       tokenType: 'Bearer',
       expiresIn: 60 * 24,
-      authState: { username: res.verfify.uid }
+      authState: { username: auth_data.verfify.uid }
     })
+
+    setIsLogging(false)
     navigate('/AT_demo2')
   }
 
   return (
-    <div className='flex h-screen'>
-      <div className='bg-slate-200 w-[30rem] h-full flex justify-center items-center'>
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <div style={{ width: '30rem', height: '100%', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
         <form
-          className='p-5 rounded border border-slate-500  outline outline-2 outline-blue-300 flex flex-col justify-between w-[20rem] h-[23rem]'
           onSubmit={onSubmit}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '17rem',
+            height: '23rem'
+          }}
         >
-          <Typography className='text-center' variant='h4'>
+          <Typography variant='h4' sx={{ marginBottom: '1.5rem' }}>
             Iniciar sesión
           </Typography>
-          <FormControl>
-            <FormLabel htmlFor='userNameId'>Usuario</FormLabel>
-            <TextField id='userNameId' placeholder='Ingresa un usuario'></TextField>
+          <FormControl sx={{ marginBottom: '1rem' }}>
+            <FormLabel required sx={{ marginBottom: '0.2rem', fontSize: 15 }} htmlFor='userNameId' style={{ fontWeight: 'bold' }}>
+              Usuario
+            </FormLabel>
+            <TextField
+              onChange={onChangeUser}
+              error={Boolean(userError)}
+              id='userNameId'
+              size='small'
+              placeholder='Ingrese un usuario'
+            ></TextField>
+            <FormHelperText error sx={{ marginLeft: 0 }}>
+              {userError}
+            </FormHelperText>
           </FormControl>
-          <FormControl>
-            <FormLabel htmlFor='userPaswordId'>Contraseña</FormLabel>
-            <TextField id='userPasswordId' placeholder='Ingresa una contraseña' type='password'></TextField>
+          <FormControl sx={{ marginBottom: '1.5rem' }}>
+            <FormLabel required sx={{ marginBottom: '0.2rem', fontSize: 15 }} htmlFor='userPaswordId' style={{ fontWeight: 'bold' }}>
+              Contraseña
+            </FormLabel>
+            <TextField
+              onChange={onChangePassword}
+              error={Boolean(passwordError)}
+              id='userPasswordId'
+              size='small'
+              placeholder='Ingrese una contraseña'
+              type='password'
+            ></TextField>
+            <FormHelperText error sx={{ marginLeft: 0 }}>
+              {passwordError}
+            </FormHelperText>
           </FormControl>
-          <Button variant='contained' type='submit'>
-            Iniciar seción
+
+          <FormHelperText error sx={{ marginLeft: 0 }}>
+            {generalError}
+          </FormHelperText>
+          <Button disabled={isLogging} variant='contained' color={generalError ? 'error' : 'primary'} type='submit'>
+            Iniciar sesión
+            <LogginSpinner isLogging={isLogging} />
           </Button>
         </form>
       </div>

@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react'
-import ListTable from '../pages/lista'
+import ListTable from './Lista'
 import { ProjectContext } from '../context/ProjectContext'
-import Campos from './campos'
-import ViewMin from '../contents/ViewMin'
+import Campos from './Campos'
+import ViewMin from './ViewMin'
 
 export default ({ beginTable }) => {
   const { table, sheet } = useContext(ProjectContext)
