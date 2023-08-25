@@ -143,7 +143,7 @@ export default () => {
   if (isLoading) return <i>...Loading</i>
 
   return (
-    <div>
+    <>
       <Box className='w-full h-full pt-[1%] pb-[1%] pl-[5%] pr-[5%] bg-white'>
         <Typography variant='h4' color='text.secondary' gutterBottom>
           Proyectos activos
@@ -153,11 +153,11 @@ export default () => {
             <Grid container spacing={3}>
               {projects.length > 0 &&
                 projects.map((project) => (
-                  <Grid key={project.NAME} item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={4} key={project.ID_PROJECT}>
                     <CardProject
                       project={project}
                       handleProjectSelect={handleProjectSelect}
-                      isSelected={selectedProject && selectedProject.NAME === project.NAME}
+                      isSelected={selectedProject && selectedProject.ID_PROJECT === project.ID_PROJECT}
                     />
                   </Grid>
                 ))}
@@ -170,6 +170,6 @@ export default () => {
           </Link>
         </Box>
       </Box>
-    </div>
+    </>
   )
 }

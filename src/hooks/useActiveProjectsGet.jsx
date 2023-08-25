@@ -7,6 +7,7 @@ export default () => {
 
     const getDataProject = async () => {
         const response = await getProjectList();
+        console.log(response);
         setProjects(response)
         setIsLoading(false)
     }

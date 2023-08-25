@@ -75,7 +75,7 @@ export default ({ project, handleProjectSelect, isSelected }) => {
   return (
     <div ref={containerRef}>
       <Card
-        key={ID_PROJECT}
+        // key={ID_PROJECT}
         id={`my-card-${ID_PROJECT}`}
         style={{ cursor: 'pointer', border: isSelected ? '2px solid #1565C0' : '2px solid transparent' }}
         onClick={() => handleProjectSelect(project)}
@@ -94,11 +94,12 @@ export default ({ project, handleProjectSelect, isSelected }) => {
             <Typography variant='body2' className='font-light text-12 h-20' gutterBottom>
               {truncatedDescription}
             </Typography>
-            {TABLES !== null &&
+            {/* {!!TABLES &&
+              TABLES.length > 0 &&
               TABLES.split(',')
                 .slice(0, maxChips)
-                .map((table) => <Chip key={table} className='mr-1' label={table} />)}
-            {TABLES !== null && TABLES.length > maxChips && <Chip className='mr-1' label='...' />}
+                .map((table) => <Chip key={`chip-${table}`} className='mr-1' label={table} />)}
+            {TABLES !== null && TABLES.length > maxChips && <Chip className='mr-1' label='...' />} */}
           </CardContent>
         </CardActionArea>
       </Card>

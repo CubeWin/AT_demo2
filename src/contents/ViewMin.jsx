@@ -6,7 +6,7 @@ import useSheetUpdate from '../hooks/useSheetUpdate'
 import { useNavigate } from 'react-router-dom'
 
 export default ({ secondaryKey }) => {
-  const { table, queryField } = useContext(ProjectContext)
+  const { table, queryField, sheet } = useContext(ProjectContext)
   const [dataField, setDataField] = useState()
   const [message, setMessage] = useState('')
   const [severity, setSeverity] = useState('info')
@@ -54,6 +54,8 @@ export default ({ secondaryKey }) => {
         <div className='text-center mb-5'>
           <h2 className='font-bold text-3xl'>{table.name}</h2>
           <small className='text-xs text-gray-600'>{table.id}</small>
+          <br />
+          <small className='text-xs text-gray-600'>{sheet}</small>
         </div>
         <div className='border border-spacing-2 border-stone-300 rounded-md overflow-auto w-full max-h-[50vh] min-h-[350px] shadow-inner'>
           {dataField &&

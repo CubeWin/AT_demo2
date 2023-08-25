@@ -2,15 +2,16 @@ import { useContext, useEffect, useState } from 'react'
 import { ProjectContext } from '../context/ProjectContext'
 import { createQuery, updateQuery } from '../services/ApiQuery'
 import { createQueryField } from '../services/ApiQueryField'
-import { updateSheet } from '../services/ApiSheet'
+import { createSheet, updateSheet } from '../services/ApiSheet'
 
 export default () => {
-  const { sheet, table, queryField } = useContext(ProjectContext)
+  const { sheet, table, queryField, setSheet, project } = useContext(ProjectContext)
   const [isPost, setIsPost] = useState(false)
   const [isLoadingQuery, setIsLoadingQuery] = useState(false)
   const [isLoadingQueryField, setIsLoadingQueryField] = useState(false)
   const [isLoadingQueryUpd, setIsLoadingQueryUpd] = useState(false)
   const [isLoadingSheetUpd, setIsLoadingSheetUpd] = useState(false)
+  const [isLoadingSheetCreate, setIsLoadingSheetCreate] = useState(false)
   const [resMessage, setResMessage] = useState('')
   const [isCompleteSuccess, setIsCompleteSuccess] = useState(false)
 
@@ -19,6 +20,19 @@ export default () => {
     setIsCompleteSuccess(false)
     const execProcess = async () => {
       try {
+        let idSheetGet = null;
+        if (!sheet) {
+          console.log('No hay sheet', sheet)
+          setIsLoadingSheetCreate(true)
+          setResMessage('Se esta registrando la hoja de trabajo...')
+          const newSheetObj = { id_project: project, title: table.name, nivel: 0 }
+          const resSheet = await createSheet(newSheetObj)
+          if (!resSheet.id) throw new Error('No se pudo registrar la Hoja.')
+          setSheet(resSheet.id)
+          idSheetGet= resSheet.id
+          setIsLoadingSheetCreate(false)
+        }
+
         /** Insertar en QUERY */
         setIsLoadingQuery(true)
         setResMessage('Se esta registrando el query...')
@@ -59,7 +73,8 @@ export default () => {
         setIsLoadingSheetUpd(true)
         setResMessage('Se esta registrando las hojas del libro...')
         const newSheetObj = { title: table.name, nivel: 0, is_query: true, id_query: queryID }
-        const resSheet = await updateSheet(newSheetObj, sheet)
+        console.log(sheet)
+        const resSheet = await updateSheet(newSheetObj, sheet || idSheetGet)
         if (!resSheet) throw new Error('No se pudo registrar la Hoja.')
         setIsLoadingSheetUpd(false)
         setResMessage('Regitro Finalizado')
@@ -73,5 +88,15 @@ export default () => {
     execProcess()
   }, [isPost])
 
-  return { isPost, setIsPost, isLoadingQuery, isLoadingQueryField, isLoadingQueryUpd, isLoadingSheetUpd, resMessage, isCompleteSuccess }
+  return {
+    isPost,
+    setIsPost,
+    isLoadingQuery,
+    isLoadingQueryField,
+    isLoadingQueryUpd,
+    isLoadingSheetUpd,
+    isLoadingSheetCreate,
+    resMessage,
+    isCompleteSuccess
+  }
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export const projectStore = () => {
-  const [project, setProject] = useState({ name: 'Basic', description: 'Decription' })
+  const [project, setProject] = useState({ id_project: null, name: 'Basic', description: 'Decription' })
   const [query, setQuery] = useState({ id_data_table: 0, name: '', sentence: '' })
   const [table, setTable] = useState({ id: null, name: '' })
   const [field, setField] = useState({ id_query: '', field_name: '', is_active: '' })

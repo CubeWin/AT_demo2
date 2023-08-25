@@ -4,43 +4,77 @@ import { getDataQuery } from '../services/ApiCommand'
 import Crear from './Crear'
 import CreateTableField from './CreateTableField'
 import { ProjectContext } from '../context/ProjectContext'
+import useSaveSheetPlain from '../hooks/useSaveSheetPlain'
 
 export default () => {
   const { projectId } = useParams()
   const [isNew, setIsNew] = useState(false)
   const [isTable, setIsTable] = useState(false)
-  const { sheet, setSheet } = useContext(ProjectContext)
+  const { setSheet, setProject, project } = useContext(ProjectContext)
+  const [lSheet, setlSheet] = useState(null)
+  const { setIsPost, isPost, resMessage, setSheetName, setCellData, updateSheetPlain } = useSaveSheetPlain()
+  const luckysheet = window.luckysheet
 
   useEffect(() => {
     const getFullData = async () => {
       console.log('Load Data ===')
-      const responseGetData = !projectId ? { sheet_id: null, fullData: [] } : await getDataQuery(projectId)
-      const { sheet_id, fullData } = responseGetData
-      setSheet(sheet_id)
-      const nameData = projectId || 'Hoja 1'
-      const luckysheet = window.luckysheet
+      const responseGetData = !projectId
+        ? {
+            id_project: null,
+            arrSheet: [
+              {
+                name: 'Hoja1',
+                color: '#Df3',
+                status: '1',
+                order: '0',
+                celldata: [],
+                config: {},
+                index: 0
+              }
+            ]
+          }
+        : await getDataQuery(projectId)
+      const { id_project, arrSheet } = responseGetData
+      if (!!id_project) setProject(id_project)
       luckysheet.create({
         container: 'luckysheet',
         title: 'Luckysheet Demo',
         lang: 'es',
         showtoolbar: true,
         showinfobar: false,
-        data: [
-          {
-            name: nameData,
-            color: '#F3A712',
-            status: '1',
-            order: '0',
-            celldata: fullData,
-            config: {},
-            index: 0
-          }
-        ]
+        data: arrSheet
       })
     }
 
     getFullData()
   }, [projectId])
+
+  useEffect(() => {
+    if (!isTable) return
+    const { sheet_id } = luckysheet.getSheet()
+    if (!sheet_id) setSheet(null)
+    setSheet(sheet_id)
+  }, [isTable])
+
+  const handleClick = () => {
+    // const { sheet_id } = luckysheet.getSheet()
+
+    const getAllSheets = luckysheet.getAllSheets()
+
+    updateSheetPlain(getAllSheets)
+    // getAllSheets.forEach((sheet) => {
+    //   console.log('fe');
+    //   console.log(sheet);
+    //   if (true) return
+    //   if (!sheet.sheet_id) {
+    //     setSheetName(sheet.name)
+    //     setCellData(sheet.celldata)
+    //     setIsPost(true)
+    //     console.log(JSON.stringify(sheet.celldata))
+    //     console.log('FINISH ===')
+    //   }
+    // })
+  }
 
   return (
     <div className='flex-col relative overflow-hidden'>
@@ -66,15 +100,14 @@ export default () => {
               Tablas
             </button>
           </li>
-          <li className='text-xs h-full'>
-            <button className='py-0 px-2 h-full transition-colors flex items-center hover:bg-green-600 hover:text-white active:ring-2 ring-green-800'>
-              Campos
-            </button>
-          </li>
         </ul>
         <ul className='h-full'>
+          {isPost && <li>{resMessage}</li>}
           <li className='text-xs h-full'>
-            <button className='py-0 px-2 h-full transition-colors flex items-center hover:bg-green-600 hover:text-white active:ring-2 ring-green-800'>
+            <button
+              className='py-0 px-2 h-full transition-colors flex items-center hover:bg-green-600 hover:text-white active:ring-2 ring-green-800'
+              onClick={handleClick}
+            >
               Guardar
             </button>
           </li>
