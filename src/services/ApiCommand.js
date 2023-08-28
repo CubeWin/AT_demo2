@@ -17,15 +17,18 @@ export const getDataQuery = async (id_project) => {
         config: {},
         index: 0,
         is_query: false,
-        is_plain: false
+        is_plain: false,
+        is_query: false,
+        is_plain: false,
+        id_plain: id_plain || null,
+        id_query: id_query || null
       }]
     }
   }
 
-  console.log('before map', sheetDataFullArr);
 
   const workbookSheet = sheetDataFullArr.map(sheetData => {
-    const { sheet, name, fields, request, is_query, is_plain } = sheetData;
+    const { sheet, name, fields, request, is_query, is_plain, id_plain, id_query } = sheetData;
     // { sheet_id: sheet || null, fullData: [] }
 
     if ((!is_query && !is_plain) || !request || request.length <= 0) {
@@ -39,7 +42,9 @@ export const getDataQuery = async (id_project) => {
         index: 0,
         sheet_id: sheet,
         is_query: false,
-        is_plain: false
+        is_plain: false,
+        id_plain: id_plain || null,
+        id_query: id_query || null
       }
     }
 
@@ -86,7 +91,9 @@ export const getDataQuery = async (id_project) => {
         index: 0,
         sheet_id: sheet,
         is_query: true,
-        is_plain: false
+        is_plain: false,
+        id_plain: id_plain || null,
+        id_query: id_query || null
       }
     }
 
@@ -101,7 +108,9 @@ export const getDataQuery = async (id_project) => {
         index: 0,
         sheet_id: sheet,
         is_query: false,
-        is_plain: true
+        is_plain: true,
+        id_plain: id_plain || null,
+        id_query: id_query || null
       }
     }
 

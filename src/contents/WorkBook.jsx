@@ -57,23 +57,8 @@ export default () => {
   }, [isTable])
 
   const handleClick = () => {
-    // const { sheet_id } = luckysheet.getSheet()
-
     const getAllSheets = luckysheet.getAllSheets()
-
     updateSheetPlain(getAllSheets)
-    // getAllSheets.forEach((sheet) => {
-    //   console.log('fe');
-    //   console.log(sheet);
-    //   if (true) return
-    //   if (!sheet.sheet_id) {
-    //     setSheetName(sheet.name)
-    //     setCellData(sheet.celldata)
-    //     setIsPost(true)
-    //     console.log(JSON.stringify(sheet.celldata))
-    //     console.log('FINISH ===')
-    //   }
-    // })
   }
 
   return (

@@ -23,19 +23,24 @@ export default () => {
       // solo actualizar las hojas que no sean isquery
       const { is_plain, id_plain, is_query, sheet_id, celldata, name } = sheet
 
+      console.log('==================');
+      console.log(sheet);
+      console.log('EXEC resUpdateAllSheetsPlain');
       if (is_query) return
-
       let idSheetGet = sheet_id || null
       let idPlainGet = null
 
       if (!sheet_id) {
+        console.log('!sheet_id', !sheet_id);
         const newSheetObj = { id_project: project, title: name, nivel: 0 }
         const resSheet = await createSheet(newSheetObj)
         if (!resSheet.id) throw new Error('No se pudo registrar la Hoja.')
         idSheetGet = resSheet.id
       }
 
+
       if (!is_plain) {
+        console.log('!is_plain', !is_plain);
         const newPlainObj = { full_text: JSON.stringify(celldata) }
         const resPlain = await createPlain(newPlainObj)
         if (!resPlain.id) throw new Error(`No se pudo registrar el contenido de la Hoja ${name}.`)
@@ -46,18 +51,21 @@ export default () => {
         if (!resSheetUpd) throw new Error('No se pudo registrar la Hoja.')
       } else {
         // update isplain
+        console.log('id_plain', id_plain);
+        console.log('is_plain', is_plain);
         const newPlainObj = { full_text: JSON.stringify(celldata) }
         const resPlainUpd = await updatePlain(newPlainObj, id_plain)
         if (!resPlainUpd) throw new Error('No se pudo actualizar el contenido Plain.')
       }
+
     })
 
     try {
       const result = await Promise.all(resUpdateAllSheetsPlain)
-      console.log('Se completo todo');
-      console.log(result);
+      console.log('Se completo todo')
+      console.log(result)
     } catch (error) {
-      console.error('Ocurrio un Error:', error);
+      console.error('Ocurrio un Error:', error)
     }
   })
 
